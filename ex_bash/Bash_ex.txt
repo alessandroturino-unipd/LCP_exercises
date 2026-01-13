@@ -1,18 +1,25 @@
-EXERCISE 1 command lines:
+[EXERCISE 1 command lines:
 mkdir students
 cd students
 wget -O mydata.csv (copy link url)
 ls (to check if there is the file)
 grep "PoD" mydata.csv >> PoD.csv
-grep "Physics" mydata.csv >> PoD.csv
+grep "Physics" mydata.csv >> Physics.csv
 for i in {A..Z}; do cut -f1 -d "," mydata.csv | grep -c "^$i"; done
 for i in {A..Z}; do echo "$i $(cut -f1 -d "," mydata.csv | grep -c "^$i")" ; done | sort -k2 -nr | head -1
-for i in $(seq 1 18); do sed -n "${i}~18p" mydata.csv > groupo_$i.txt; done
+for i in $(seq 1 18); do sed -n "${i}~18p" mydata.csv > group_$i.txt; done
 
 
 EX 2 command lines:
 sed '1d; s/,/ /g' data.csv > data.txt 
 grep -oE '\-?[0-9]*[02468]' data.txt | wc -l 
-var=86.60250; greater=0; smaller=0; while read x y z ; do [[ -z  ]] && continue; r=; comp=0; if [ 0 -eq 1] ;then greater=1; else smaller=11;fi;done < data.txt; echo 0; echo 10 
-echo "var=$(echo "scale=5; 100*sqrt(3)/2" | bc -l); greater=0; smaller=0; while read x y z ; do [[ -z "$x" ]] && continue; r=$(echo "scale=5; sqrt($x*$x+$y*$y + $z*$z)" | bc -l); comp=$(echo "$r> $var" | bc); if [ "$comp" -eq 1] ;then greater=$((greater+1)); else smaller=$((smaller+1));fi;done < data.txt; echo "$greater"; echo "$smaller" 
-for i in $(seq 1 $n); do outfile="data_copy_$i.txt"; sed s/,/ /g data.txt | tr -s   n | \ ; while read num; do echo "scale=5; $num / $i" | bc -l; done | paste -sd   > "$outfile";echo "Created $outfile";done
+
+echo "var=$(echo "100*sqrt(3)/2" | bc -l); greater=0; smaller=0; while read x y z ; do [[ -z "$x" ]] && continue; r=$(echo "scale=5; sqrt($x*$x+$y*$y + $z*$z)" | bc -l); comp=$(echo "$r> $var" | bc); if [ "$comp" -eq 1] ;then greater=$((greater+1)); else smaller=$((smaller+1));fi;done < data.txt; echo "$greater"; echo "$smaller" 
+
+for i in $(seq 1 $n); do outfile="data_copy_$i.txt"; sed 's/,/ /g' data.txt | tr -s   n | \ ; while read num; do echo "scale=5; $num / $i" | bc -l; done | paste -sd   > "$outfile";echo "Created $outfile";done
+
+# a much cleaner version of the last two points
+g=0;s=0; while read -r x y z; do [[ -z "$x" ]] && continue ;sum=$((x*x + y*y + z*z)) ; if (( sum > 7500 )); then ((g++))
+; else ((s++)) ; fi ;done < data.txt ; printf "%d\n%d\n" "$g" "$s"
+
+n="$6"; for i in $(seq 1 $n); do outfile="data_copy_$i.txt"; sed 's/,/ /g' data.txt | while read num; do echo "$num / $i " | bc -l; done  > "$outfile"; done
